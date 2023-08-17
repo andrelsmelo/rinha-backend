@@ -32,6 +32,8 @@ const buscarPessoas = async (req, res) => {
     const pessoasEncontradas = await pessoasService.buscarPessoasPorTermo(
       termoBusca
     );
+
+    console.log(pessoasEncontradas)
     return res.json(pessoasEncontradas);
   } catch (error) {
     console.error('Erro ao buscar pessoas:', error);

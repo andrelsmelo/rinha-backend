@@ -25,12 +25,6 @@ module.exports = {
       stack: {
         type: Sequelize.STRING,
         allowNull: false,
-        get() {
-            return this.getDataValue('stack').split(';')
-        },
-        set(val) {
-           this.setDataValue('stack',val.join(';'));
-        },
         allowNull: true,
       },
       created_at: {

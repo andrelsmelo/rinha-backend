@@ -1,7 +1,8 @@
-const pessoa = require("../models/pessoa");
+const { Pessoa } = require("../models");
+const { Op } = require("sequelize");
 
 const criarPessoa = async (dadosPessoa) => {
-  return await pessoa.create(dadosPessoa);
+  return await Pessoa.create(dadosPessoa);
 };
 
 const consultarPessoaPorId = async (pessoaId) => {
@@ -11,15 +12,21 @@ const consultarPessoaPorId = async (pessoaId) => {
 const buscarPessoasPorTermo = async (termoBusca) => {
   return await Pessoa.findAll({
     where: {
-      nome: {
-        [Op.iLike]: `%${termoBusca}%`,
+      stack: {
+        [Op.substring]: termoBusca,
       },
     },
   });
 };
 
 const contarPessoas = async () => {
-  return await Pessoa.count();
+  return await Pessoa.findAll({
+      attributes: {
+        include: [
+          [sequelize.fn('COUNT', sequelize.col('id')), 'qtd']
+        ]
+      }
+  });
 };
 
 module.exports = {
