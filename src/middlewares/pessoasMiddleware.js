@@ -2,7 +2,7 @@ const validarCriacaoPessoa = (req, res, next) => {
   const { apelido, nome, nascimento, stack } = req.body;
 
   if (!apelido || !nome || !nascimento) {
-    return res.status(400).json({ error: 'Campos obrigatórios faltando' });
+    return res.status(422).json({ error: 'Campos obrigatórios faltando' });
   }
 
   if (
@@ -10,11 +10,11 @@ const validarCriacaoPessoa = (req, res, next) => {
     typeof nome !== 'string' ||
     typeof nascimento !== 'string'
   ) {
-    return res.status(400).json({ error: 'Campos inválidos' });
+    return res.status(422).json({ error: 'Campos inválidos' });
   }
 
   if (stack && !Array.isArray(stack)) {
-    return res.status(400).json({ error: 'Campo "stack" deve ser um vetor' });
+    return res.status(422).json({ error: 'Campo "stack" deve ser um vetor' });
   }
 
   next();
