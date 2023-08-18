@@ -1,4 +1,6 @@
-const validarCriacaoPessoa = (req, res, next) => {
+const pessoasService = require('../services/pessoasService');
+
+const validarCriacaoPessoa = async (req, res, next) => {
   const { apelido, nome, nascimento, stack } = req.body;
 
   if (!apelido || !nome || !nascimento) {
@@ -13,8 +15,14 @@ const validarCriacaoPessoa = (req, res, next) => {
     return res.status(422).json({ error: 'Campos inválidos' });
   }
 
-  if (stack && !Array.isArray(stack)) {
-    return res.status(422).json({ error: 'Campo "stack" deve ser um vetor' });
+  if (stack && (!Array.isArray(stack) || !stack.every(item => typeof item === 'string'))) {
+    return res.status(422).json({ error: 'Campo stack deve ser um vetor de strings' });
+  }  
+
+  apelidoJaExiste = await pessoasService.buscaPessoaPorApelido(apelido);
+
+  if (apelidoJaExiste.length > 0) {
+    return res.status(422).json({error: 'Já existe alguem com esse apelido'})
   }
 
   next();
@@ -30,7 +38,7 @@ const validarBuscaPessoas = (req, res, next) => {
 const validarConsultaPessoa = (req, res, next) => {
   const pessoaId = req.params.id;
 
-  if (isNaN(pessoaId)) {
+  if (!pessoaId) {
     return res.status(400).json({ error: 'ID de pessoa inválido' });
   }
 

@@ -2,7 +2,14 @@ const pessoasService = require('../services/pessoasService');
 
 const criarPessoa = async (req, res) => {
   try {
+
     const novaPessoa = await pessoasService.criarPessoa(req.body);
+    const novaPessoaId = novaPessoa.id;
+
+    const novaPessoaUrl = `/pessoas/${novaPessoaId}`;
+
+    res.setHeader('Location', novaPessoaUrl);
+
     return res.status(201).json(novaPessoa);
   } catch (error) {
     console.error('Erro ao criar pessoa:', error);
@@ -10,13 +17,14 @@ const criarPessoa = async (req, res) => {
   }
 };
 
+
 const consultarPessoaPorId = async (req, res) => {
   try {
     const pessoaId = req.params.id;
     const pessoa = await pessoasService.consultarPessoaPorId(pessoaId);
 
     if (!pessoa) {
-      return res.status(404).json({ error: 'Pessoa não encontrada' });
+      return res.status(404).json();
     }
 
     return res.json(pessoa);
@@ -33,7 +41,6 @@ const buscarPessoas = async (req, res) => {
       termoBusca
     );
 
-    console.log(pessoasEncontradas)
     return res.json(pessoasEncontradas);
   } catch (error) {
     console.error('Erro ao buscar pessoas:', error);
@@ -44,7 +51,7 @@ const buscarPessoas = async (req, res) => {
 const contagemPessoas = async (req, res) => {
   try {
     const totalPessoas = await pessoasService.contarPessoas();
-    return res.json({ total: totalPessoas });
+    return res.json(totalPessoas);
   } catch (error) {
     console.error('Erro ao contar pessoas:', error);
     return res.status(500).json({ error: 'Erro ao contar pessoas' });

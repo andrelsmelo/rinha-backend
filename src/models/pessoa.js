@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Pessoa.init(
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue:DataTypes.UUIDV4,
+        primaryKey: true,
+      },
       apelido: {
         type: DataTypes.STRING(32),
         allowNull: false,
@@ -29,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       stack: {
-        type: DataTypes.STRING,
+        type: DataTypes.JSON,
         allowNull: true,
       },
     },
