@@ -1,10 +1,10 @@
-const pessoasService = require('../services/pessoasService');
+const pessoasService = require('../services/pessoasService')
 
 const validarCriacaoPessoa = async (req, res, next) => {
-  const { apelido, nome, nascimento, stack } = req.body;
+  const { apelido, nome, nascimento, stack } = req.body
 
   if (!apelido || !nome || !nascimento) {
-    return res.status(422).json({ error: 'Campos obrigatórios faltando' });
+    return res.status(422).json({ error: 'Campos obrigatórios faltando' })
   }
 
   if (
@@ -12,41 +12,41 @@ const validarCriacaoPessoa = async (req, res, next) => {
     typeof nome !== 'string' ||
     typeof nascimento !== 'string'
   ) {
-    return res.status(422).json({ error: 'Campos inválidos' });
+    return res.status(422).json({ error: 'Campos inválidos' })
   }
 
   if (stack && (!Array.isArray(stack) || !stack.every(item => typeof item === 'string'))) {
-    return res.status(422).json({ error: 'Campo stack deve ser um vetor de strings' });
-  }  
+    return res.status(422).json({ error: 'Campo stack deve ser um vetor de strings' })
+  }
 
-  apelidoJaExiste = await pessoasService.buscaPessoaPorApelido(apelido);
+  const apelidoJaExiste = await pessoasService.buscaPessoaPorApelido(apelido)
 
   if (apelidoJaExiste.length > 0) {
-    return res.status(422).json({error: 'Já existe alguem com esse apelido'})
+    return res.status(422).json({ error: 'Já existe alguem com esse apelido' })
   }
 
-  next();
-};
+  next()
+}
 const validarBuscaPessoas = (req, res, next) => {
-  const termoBusca = req.query.t;
+  const termoBusca = req.query.t
 
   if (!termoBusca || typeof termoBusca !== 'string') {
-    return res.status(400).json({ error: 'Termo de busca inválido' });
+    return res.status(400).json({ error: 'Termo de busca inválido' })
   }
-  next();
-};
+  next()
+}
 const validarConsultaPessoa = (req, res, next) => {
-  const pessoaId = req.params.id;
+  const pessoaId = req.params.id
 
   if (!pessoaId) {
-    return res.status(400).json({ error: 'ID de pessoa inválido' });
+    return res.status(400).json({ error: 'ID de pessoa inválido' })
   }
 
-  next();
-};
+  next()
+}
 
 module.exports = {
   validarBuscaPessoas,
   validarConsultaPessoa,
   validarCriacaoPessoa
-};
+}

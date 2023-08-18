@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 const {
   Model
-} = require('sequelize');
+} = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Pessoa extends Model {
     /**
@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate (models) {
       // define association here
     }
   }
@@ -17,26 +17,26 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.UUID,
-        defaultValue:DataTypes.UUIDV4,
-        primaryKey: true,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
       },
       apelido: {
         type: DataTypes.STRING(32),
         allowNull: false,
-        unique: true,
+        unique: true
       },
       nome: {
         type: DataTypes.STRING(100),
-        allowNull: false,
+        allowNull: false
       },
       nascimento: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: false
       },
       stack: {
         type: DataTypes.JSON,
-        allowNull: true,
-      },
+        allowNull: true
+      }
     },
     {
       sequelize,
@@ -44,8 +44,8 @@ module.exports = (sequelize, DataTypes) => {
       tableName: 'pessoas',
       timestamps: true,
       paranoid: true,
-      underscored: true,
+      underscored: true
     }
-  );
-  return Pessoa;
-};
+  )
+  return Pessoa
+}
