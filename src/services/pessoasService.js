@@ -43,11 +43,17 @@ const contarPessoas = async () => {
 }
 
 const buscaPessoaPorApelido = async (apelido) => {
-  return await Pessoa.findAll({
-    where: {
-      apelido
-    }
-  })
+  try {
+    const result = await Pessoa.findAll({
+      where: {
+        apelido
+      }
+    })
+
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
 module.exports = {

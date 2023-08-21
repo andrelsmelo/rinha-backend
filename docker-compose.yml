@@ -1,0 +1,22 @@
+version: '3'
+services:
+  node_app:
+    build: .
+    ports:
+      - "8080:8080"  # Map host port to container port
+    depends_on:
+      - mysql
+      - redis
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: rinha_senha
+      MYSQL_DATABASE: rinha_banco
+    ports:
+      - "3306:3306"  # Map host port to container port
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"  # Map host port to container port
