@@ -6,7 +6,7 @@
 
 Repositorio tem varias branchs diferentes com finalidades diferentes, descubra.
 
-> Me bati muito com o Docker Compose
-> Não faço ideia o que fiz no nginx.conf
-> Lembrei o quanto odeio o Sequelize
-> Me diverti muito 🤡🤡🤡
+> - Me bati muito com o Docker Compose
+> - Não faço ideia o que fiz no nginx.conf
+> - Lembrei o quanto odeio o Sequelize
+> - Me diverti muito 🤡🤡🤡
