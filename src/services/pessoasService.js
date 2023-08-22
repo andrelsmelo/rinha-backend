@@ -31,8 +31,27 @@ const buscarPessoasPorTermo = async (termoBusca) => {
 }
 
 const criarPessoa = async (dadosPessoa) => {
-  return await Pessoa.create(dadosPessoa)
-}
+  const novaPessoa = await Pessoa.create(dadosPessoa);
+
+  const termosParaVerificar = [novaPessoa.nome, novaPessoa.apelido, ...novaPessoa.stack];
+  redisClient.keys('cache_busca_*', (err, cacheKeys) => {
+    if (err) {
+      console.error('Error getting cache keys:', err);
+      return;
+    }
+    cacheKeys.forEach(cacheKey => {
+      const termoBuscaNoCache = cacheKey.split('_')[2];
+      if (termoBuscaNoCache) {
+        const termoEncontrado = termosParaVerificar.some(t => termoBuscaNoCache.includes(t));
+        if (termoEncontrado) {
+          redisClient.del(cacheKey);
+        }
+      }
+    });
+  });
+
+  return novaPessoa;
+};
 
 const consultarPessoaPorId = async (pessoaId) => {
   return await Pessoa.findByPk(pessoaId, {
