@@ -35,8 +35,13 @@ const criarPessoa = async (dadosPessoa) => {
 }
 
 const consultarPessoaPorId = async (pessoaId) => {
-  return await Pessoa.findByPk(pessoaId)
-}
+  return await Pessoa.findByPk(pessoaId, {
+    attributes: {
+      exclude: ['createdAt', 'updatedAt', 'deletedAt']
+    }
+  });
+};
+
 
 const contarPessoas = async () => {
   return await Pessoa.count()
