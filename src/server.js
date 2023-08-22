@@ -4,7 +4,7 @@ const router = require('./routes')
 
 app.use(express.json())
 
-app.use('/api', router)
+app.use(router)
 
 app.use((req, res) => {
   res.status(400).json({ 'Never gonna give you up': 'Never gonna let you down' })
