@@ -1,13 +1,34 @@
-version: '3'
+version: "3.5"
+
 services:
-  node_app:
-    build: .
+  api1:
+    image: andrelsmelo/rinha-backend-api:1.0
     ports:
-      - "8080:8080"  # Map host port to container port
+      - "8080:8080"
+    expose:
+      - "8080"
     depends_on:
       - mysql
       - redis
-
+    deploy:
+          resources:
+            limits:
+              cpus: '0.35'
+              memory: '0.5GB'
+  api2:
+    image: andrelsmelo/rinha-backend-api:1.0
+    ports:
+      - "8081:8080"
+    expose:
+      - "8080"
+    depends_on:
+      - mysql
+      - redis
+    deploy:
+          resources:
+            limits:
+              cpus: '0.35'
+              memory: '0.5GB'
   mysql:
     image: mysql:latest
     environment:
@@ -15,8 +36,33 @@ services:
       MYSQL_DATABASE: rinha_banco
     ports:
       - "3306:3306"  # Map host port to container port
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: '1GB'
 
   redis:
     image: redis:latest
     ports:
       - "6379:6379"  # Map host port to container port
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: '0.5GB'
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api1
+      - api2
+    ports:
+      - "9999:9999"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: '0.5GB'
