@@ -37,7 +37,7 @@ const criarPessoa = async (dadosPessoa) => {
   redisClient.keys('cache_busca_*', (err, cacheKeys) => {
     if (err) {
       console.error('Error getting cache keys:', err);
-      return;
+      return novaPessoa;
     }
     cacheKeys.forEach(cacheKey => {
       const termoBuscaNoCache = cacheKey.split('_')[2];
